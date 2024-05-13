@@ -10,7 +10,12 @@ function generate() {
         console.log(data);
         wrapper.innerHTML= "";
         data.hits.forEach(function(oneImage){
-            wrapper.innerHTML += `<div class="image"><h3>${oneImage.recipe.label}</h3><img src="${oneImage.recipe.images.THUMBNAIL.url}" alt="gif de ouf"></div>`
+            wrapper.innerHTML += `<div class="image"><h3>${oneImage.recipe.label}</h3><a href="${oneImage.recipe.url}">détails</a><div class="ingredients"></div><img src="${oneImage.recipe.images.THUMBNAIL.url}" alt="photo recette"></div>`
+
+            //const wrapper = document.querySelector('.ingredients')
+
+            //oneImage.ingredientLines.forEach(function(oneIngredient){})
+
         })
       })
       .catch(error => {console.log("Erreur lors de la récup des données :", error);
