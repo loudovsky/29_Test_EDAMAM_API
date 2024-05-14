@@ -10,11 +10,33 @@ function generate() {
         console.log(data);
         wrapper.innerHTML= "";
         data.hits.forEach(function(oneImage){
-            wrapper.innerHTML += `<div class="image"><h3>${oneImage.recipe.label}</h3><a href="${oneImage.recipe.url}">détails</a><div class="ingredients"></div><img src="${oneImage.recipe.images.THUMBNAIL.url}" alt="photo recette"></div>`
+          wrapper.innerHTML += `<h3><a href="${oneImage.recipe.url}">${oneImage.recipe.label}</a></h3>`;
+          // Ajoute une classe parente qui contiendra la div image et la div recipe
+          const parentDiv = document.createElement("div");
+          parentDiv.className = "image-ingredients"; 
 
-            //const wrapper = document.querySelector('.ingredients')
+          // Crée la div pour l'image
+          const imageDiv = document.createElement("div");
+          imageDiv.className = "image";
+          imageDiv.innerHTML = `<img src="${oneImage.recipe.images.REGULAR.url}" alt="photo recette">`;
 
-            //oneImage.ingredientLines.forEach(function(oneIngredient){})
+          // Crée la div pour les ingrédients
+            const ingredientsDiv = document.createElement("ul");
+            ingredientsDiv.className = "ingredients";
+
+            // En considérant que les ingrédients sont stockés dans un tableau d'objets dans la section 'recipe'
+            oneImage.recipe.ingredientLines.forEach(function(oneIngredient){
+              const ingredientElement = document.createElement("li");
+              ingredientElement.textContent = oneIngredient;
+              ingredientsDiv.appendChild(ingredientElement);
+            })
+
+            // Ajoute imageDiv & ingredientsDiv au wrapper
+            parentDiv.appendChild(imageDiv);
+            parentDiv.appendChild(ingredientsDiv);
+
+            // Ajoute la div parente au conteneur principal (wrapper)
+            wrapper.appendChild(parentDiv);
 
         })
       })
@@ -22,10 +44,16 @@ function generate() {
     })
 }
 
+query.addEventListener('keypress', function(event) {
+  if (event.key === "Enter") {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    document.getElementById("button").click();
+  }
+}); 
+
 button.addEventListener('click', function(){
     generate()
 })
 
-nbr.addEventListener('change', function(){
-    generate()
-})
